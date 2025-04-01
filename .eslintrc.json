@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": ["./tsconfig.json"] // Peger på din tsconfig for type-aware linting
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended" // Anbefalede regler fra TypeScript ESLint
+    // Overvej "plugin:@typescript-eslint/recommended-requiring-type-checking" for strengere regler
+  ],
+  "env": {
+    "node": true, // Tillad Node.js globale variabler og scope
+    "es6": true
+  },
+  "rules": {
+    // Tilpas regler her efter behov
+    "semi": ["warn", "always"], // Advar ved manglende semikolon, men fix det automatisk
+    "quotes": ["warn", "single", { "avoidEscape": true }], // Foretræk single quotes
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ], // Advar om ubrugte variabler (ignorer dem der starter med _)
+    "@typescript-eslint/no-explicit-any": "warn", // Advar ved brug af 'any'
+    "no-console": "off", // Tillad console.log under udvikling (kan ændres til "warn" eller "error" i produktion)
+    // Tilføj flere regler efter præference
+    "@typescript-eslint/explicit-function-return-type": "off", // Kræv ikke eksplicit return type på alle funktioner (kan være for verbose)
+    "@typescript-eslint/explicit-module-boundary-types": "off" // Kræv ikke eksplicit types på exported funktioners parametre/return (kan være for verbose)
+  }
+}

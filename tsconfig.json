@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS", // VS Code extensions bruger CommonJS
+    "target": "ES2020", // Moderne JavaScript-version
+    "lib": ["ES2020"],
+    "outDir": "dist", // Output mappe for kompileret JavaScript (matcher 'main' i package.json)
+    "rootDir": "src", // Kildekode mappe
+    "sourceMap": true, // Generer source maps for debugging
+    "strict": true, // Aktiver alle strenge type-tjek muligheder
+    "esModuleInterop": true, // Tillader bedre interop med CommonJS moduler
+    "skipLibCheck": true, // Spring over type-tjek af declarations filer (fra node_modules)
+    "forceConsistentCasingInFileNames": true, // Vigtigt på tværs af OS
+    "noImplicitAny": true, // Kræv eksplicitte 'any' typer
+    "strictNullChecks": true, // Håndter 'null' og 'undefined' strengt
+    // "noUnusedLocals": true, // Fjern kommentering for at fange ubrugte lokale variabler
+    // "noUnusedParameters": true, // Fjern kommentering for at fange ubrugte parametre
+    "resolveJsonModule": true // Tillad import af .json filer
+  },
+  "include": [
+    "src/**/*.ts" // Inkluder alle .ts filer i src mappen
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode-test" // Ekskluder test-relaterede mapper
+  ]
+}

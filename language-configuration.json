@@ -1,0 +1,67 @@
+{
+  "comments": {
+    // Symbol brugt til linjekommentarer (Smarty har ikke standard linjekommentarer i den forstand)
+    // "lineComment": "//",
+    // Symboler brugt til blokkommentarer
+    "blockComment": ["{*", "*}"]
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"" },
+    { "open": "'", "close": "'" },
+    { "open": "`", "close": "`" },
+    // Smarty specifikke - kan hjælpe lidt, men {} er tricky pga. CSS/JS
+    { "open": "{*", "close": "*}", "notIn": ["string", "comment"] }
+    // { "open": "{literal}", "close": "{/literal}", "notIn": ["string", "comment"] } // Kan være for aggressiv
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""],
+    ["'", "'"],
+    ["`", "`"],
+    ["{* ", " *}"]
+  ],
+  "folding": {
+    "markers": {
+      // Tillader foldning af standard Smarty blokke
+      "start": "^\\s*\\{(if|foreach|section|strip|capture|literal|php|for|while)\\b.*\\}\\s*$",
+      "end": "^\\s*\\{\\/(if|foreach|section|strip|capture|literal|php|for|while)\\}\\s*$"
+    }
+  },
+  "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
+  "indentationRules": {
+    // Forøg indrykning efter en åbnende Smarty-tag (forenklet)
+    "increaseIndentPattern": "^\\s*\\{(if|foreach|section|for|while|literal|php|capture|block)\\b.*\\}(?!.*\\{\\/\\1\\}).*$",
+    // Formindsk indrykning før en lukkende Smarty-tag
+    "decreaseIndentPattern": "^\\s*\\{\\/(if|foreach|section|for|while|literal|php|capture|block)\\}\\s*$"
+    // Kan kræve mere avancerede regler for komplekse tilfælde
+  },
+  "onEnterRules": [
+    {
+      // Når man trykker Enter inde i en blokkommentar
+      "beforeText": "^\\s*\\{\\*.*", // Starter med {*
+      "afterText": "^.*\\*\\}\\s*$", // Slutter med *}
+      "action": {
+        "indent": "indentOutdent", // Indryk og tilføj '*' i starten af den nye linje
+        "appendText": "* "
+      }
+    },
+    {
+      // Når man trykker Enter efter en åbnende blokkommentar start
+      "beforeText": "^\\s*\\{\\*(?!\\*).*$", // Starter med {*, men ikke {**
+      "action": {
+        "indent": "indent",
+        "appendText": "* "
+      }
+    }
+  ]
+}
