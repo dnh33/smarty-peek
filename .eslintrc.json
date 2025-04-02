@@ -24,6 +24,7 @@
       "error",
       { "argsIgnorePattern": "^_" }
     ], // Advar om ubrugte variabler (ignorer dem der starter med _)
+    "no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "warn", // Advar ved brug af 'any'
     "no-console": "off", // Tillad console.log under udvikling (kan ændres til "warn" eller "error" i produktion)
     // Tilføj flere regler efter præference
