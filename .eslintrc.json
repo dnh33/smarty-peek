@@ -19,7 +19,7 @@
   "rules": {
     // Tilpas regler her efter behov
     "semi": ["warn", "always"], // Advar ved manglende semikolon, men fix det automatisk
-    "quotes": ["warn", "single", { "avoidEscape": true }], // Foretræk single quotes
+    "quotes": ["warn", "single", { "avoidEscape": true }],
     "@typescript-eslint/no-unused-vars": [
       "error",
       { "argsIgnorePattern": "^_" }
