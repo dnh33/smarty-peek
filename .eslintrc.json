@@ -20,11 +20,11 @@
     // Tilpas regler her efter behov
     "semi": ["warn", "always"], // Advar ved manglende semikolon, men fix det automatisk
     "quotes": ["warn", "single", { "avoidEscape": true }],
+    "no-unused-vars": "off", // Disable base rule, as "@typescript-eslint/no-unused-vars" is used
     "@typescript-eslint/no-unused-vars": [
       "error",
-      { "argsIgnorePattern": "^_" }
-    ], // Advar om ubrugte variabler (ignorer dem der starter med _)
-    "no-unused-vars": "error",
+      { "argsIgnorePattern": "^_" } // Advar om ubrugte variabler (ignorer dem der starter med _)
+    ],
     "@typescript-eslint/no-explicit-any": "warn", // Advar ved brug af 'any'
     "no-console": "off", // Tillad console.log under udvikling (kan ændres til "warn" eller "error" i produktion)
     // Tilføj flere regler efter præference

@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
 // Denne klasse håndterer logikken for at vise hover information
 class SmartyHoverProvider implements vscode.HoverProvider {
@@ -9,7 +9,7 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   provideHover(
     document: vscode.TextDocument,
     position: vscode.Position,
-    token: vscode.CancellationToken // Bruges til at afbryde operationen hvis nødvendigt
+    _token: vscode.CancellationToken // Bruges til at afbryde operationen hvis nødvendigt
   ): vscode.ProviderResult<vscode.Hover> {
     // Kan returnere Hover, null, eller undefined
 
@@ -17,6 +17,7 @@ class SmartyHoverProvider implements vscode.HoverProvider {
     // Inkluderer: {$var}, $var (udenfor {}), $var.prop, $var->prop, $var[key], $smarty.const.SOMETHING
     // Dette er stadig en FORENKLING og fanger måske ikke alt eller fanger for meget.
     const smartyVariablePattern =
+      // eslint-disable-next-line no-useless-escape
       /\{\$?[\w\-\>\[\]\.\$]+\}|(?<!\{)\$[\w\-\>\[\]\.]+/g;
     const wordRange = document.getWordRangeAtPosition(
       position,
@@ -28,14 +29,14 @@ class SmartyHoverProvider implements vscode.HoverProvider {
     }
 
     // Få teksten fra det fundne område
-    let variableName = document.getText(wordRange);
+    const variableName = document.getText(wordRange);
     console.log(`Smarty Peek: Potential variable found: ${variableName}`);
 
     // Normaliser variabelnavnet (fjern f.eks. {$...} og start '$')
     let cleanVariableName = variableName
-      .replace(/^\{\$?/, "")
-      .replace(/\}$/, "");
-    if (cleanVariableName.startsWith("$")) {
+      .replace(/^\{\$?/, '')
+      .replace(/\}$/, '');
+    if (cleanVariableName.startsWith('$')) {
       cleanVariableName = cleanVariableName.substring(1);
     }
 
@@ -44,16 +45,15 @@ class SmartyHoverProvider implements vscode.HoverProvider {
     // og bestemme dens type, struktur og eventuelt værdi.
     // Dette kræver sandsynligvis analyse af PHP-filer eller andre metoder.
 
-    let hoverContent: vscode.MarkdownString | undefined;
-    const markdown = new vscode.MarkdownString("", true); // 'true' muliggør trusted content som kommandoer
+    const markdown = new vscode.MarkdownString('', true); // 'true' muliggør trusted content som kommandoer
     markdown.supportHtml = true; // Tillad lidt HTML for styling om nødvendigt
 
     // SIMULERET LOGIK BASERET PÅ NAVN
     if (cleanVariableName.match(/^user(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`FrameUser Object (52) {
+        `FrameUser Object (52) {
   Id: String;
   Username: String;
   CategoryId: String;
@@ -107,17 +107,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   IsB2B: Boolean;
   CurrencyCode: String;
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^general(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (20) {
+        `Array (20) {
   languageIso: String;
   languageTitle: String;
   languageIso639: String;
@@ -139,17 +139,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   builtWithText: String;
   loginRecaptchaEnabled: Boolean;
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^access(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (15) {
+        `Array (15) {
   newsletter: Boolean;
   user: String;
   social: Boolean;
@@ -167,17 +167,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   customData: Boolean;
 
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^contactdata(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (17) {
+        `Array (17) {
   name: String;
   company: String;
   address: String;
@@ -196,17 +196,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   emaildummy: String;
   vatnumber: String;
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^currency(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (7) {
+        `Array (7) {
   decimalCount: String;
   decimal: String;
   point: String;
@@ -215,17 +215,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   symbolPlace: String;
   hasVat: Boolean;
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^page(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (47) {
+        `Array (47) {
   id: String;
   folderId: String;
   categoryId: Null;
@@ -274,17 +274,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   isUserOrders: Boolean;
   isUserWishlist: Boolean;
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^settings(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (170) {
+        `Array (170) {
   404_error_page: Boolean;
   api_google_analytics: String;
   api_google_webmaster: Boolean;
@@ -456,17 +456,17 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   use_dynamic_width: Boolean;
   useKlarna: Boolean;
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^text(\.|->|$)/)) {
       markdown.appendMarkdown(`**Entity: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Origin:* Smarty Object\n`);
+      markdown.appendMarkdown('*Origin:* Smarty Object\n');
       markdown.appendCodeblock(
-`Array (1074) {
+        `Array (1074) {
   DATE_FORMAT: String; // "%d/%m %Y"
   DATE_FORMAT_EXT: String; // "%d/%m %Y kl. %H:%i"
   DATE_FORMAT_SMARTY: String; // "%d/%m %Y kl. %H:%M"
@@ -993,62 +993,62 @@ class SmartyHoverProvider implements vscode.HoverProvider {
   ...
 
 }`,
-        "typescript"
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Dandomain Smarty Tooltip</span>`
+        '<span style="color:gray;">Dandomain Smarty Tooltip</span>'
       );
     } else if (cleanVariableName.match(/^products(\[|\.|->|$)/)) {
       markdown.appendMarkdown(`**Collection: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Type:* \`array<Product>\` (guessed)\n`);
-      markdown.appendMarkdown(`*Size:* Unknown (runtime)\n`);
+      markdown.appendMarkdown('*Type:* `array<Product>` (guessed)\n');
+      markdown.appendMarkdown('*Size:* Unknown (runtime)\n');
       markdown.appendCodeblock(
-        `// Structure of each Product element:\ninterface Product {\n  id: number;\n  sku: string;\n  name: string;\n  price: number;\n  description?: string;\n}`,
-        "typescript"
+        '// Structure of each Product element:\ninterface Product {\n  id: number;\n  sku: string;\n  name: string;\n  price: number;\n  description?: string;\n}',
+        'typescript'
       );
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Simulated data - Requires PHP analysis for real info.</span>`
+        '<span style="color:gray;">Simulated data - Requires PHP analysis for real info.</span>'
       );
     } else if (cleanVariableName.match(/^\$smarty\.*/)) {
       markdown.appendMarkdown(`**Reserved Variable: \`${variableName}\`**\n\n`);
       markdown.appendMarkdown(
-        `Accesses Smarty's reserved variables (e.g., \`$smarty.get\`, \`$smarty.const\`, \`$smarty.now\`).\n`
+        "Accesses Smarty's reserved variables (e.g., `$smarty.get`, `$smarty.const`, `$smarty.now`).\n"
       );
-      markdown.appendMarkdown(`Refer to Smarty documentation for details.`);
+      markdown.appendMarkdown('Refer to Smarty documentation for details.');
     } else if (
-      cleanVariableName.includes(".") ||
-      cleanVariableName.includes("->") ||
-      cleanVariableName.includes("[")
+      cleanVariableName.includes('.') ||
+      cleanVariableName.includes('->') ||
+      cleanVariableName.includes('[')
     ) {
       // Generisk gæt på property/method access eller array access
       markdown.appendMarkdown(
         `**Variable Access: \`${cleanVariableName}\`**\n\n`
       );
-      markdown.appendMarkdown(`*Type:* Unknown (Requires analysis)\n`);
-      markdown.appendMarkdown(`*Value:* Unknown (Runtime)\n`);
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('*Type:* Unknown (Requires analysis)\n');
+      markdown.appendMarkdown('*Value:* Unknown (Runtime)\n');
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Simulated data - Requires PHP analysis for real info.</span>`
+        '<span style="color:gray;">Simulated data - Requires PHP analysis for real info.</span>'
       );
     } else {
       // Simpel variabel
       markdown.appendMarkdown(`**Variable: \`${cleanVariableName}\`**\n\n`);
-      markdown.appendMarkdown(`*Type:* Unknown (Requires analysis)\n`);
-      markdown.appendMarkdown(`*Value:* Unknown (Runtime)\n`);
-      markdown.appendMarkdown(`\n---\n`);
+      markdown.appendMarkdown('*Type:* Unknown (Requires analysis)\n');
+      markdown.appendMarkdown('*Value:* Unknown (Runtime)\n');
+      markdown.appendMarkdown('\n---\n');
       markdown.appendMarkdown(
-        `<span style="color:gray;">Simulated data - Requires PHP analysis for real info.</span>`
+        '<span style="color:gray;">Simulated data - Requires PHP analysis for real info.</span>'
       );
     }
 
-    hoverContent = markdown;
     // --- SIMULERET LOGIK SLUT ---
 
-    if (hoverContent) {
+    if (markdown.value) {
+      // Check if markdown has content before creating Hover
       // Returner et Hover objekt med indholdet og det område, det dækker
-      return new vscode.Hover(hoverContent, wordRange);
+      return new vscode.Hover(markdown, wordRange);
     }
 
     return undefined; // Returner intet hvis ingen information blev genereret
@@ -1057,7 +1057,7 @@ class SmartyHoverProvider implements vscode.HoverProvider {
 
 // Denne funktion kaldes kun én gang, når din extension aktiveres
 export function activate(context: vscode.ExtensionContext) {
-  console.log("Activating Smarty Peek extension...");
+  console.log('Activating Smarty Peek extension...');
 
   // Opret en instans af vores Hover Provider
   const smartyHoverProvider = new SmartyHoverProvider();
@@ -1068,7 +1068,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
       // Selector: Matcher filer med sproget 'smarty'
-      { language: "smarty", scheme: "file" }, // Vær specifik om scheme for at undgå f.eks. settings-filer
+      { language: 'smarty', scheme: 'file' }, // Vær specifik om scheme for at undgå f.eks. settings-filer
       smartyHoverProvider
     )
   );
@@ -1082,11 +1082,11 @@ export function activate(context: vscode.ExtensionContext) {
     );
     */
 
-  console.log("Smarty Peek extension activated successfully.");
+  console.log('Smarty Peek extension activated successfully.');
 }
 
 // Denne funktion kaldes, når din extension deaktiveres (f.eks. når VS Code lukkes)
 export function deactivate() {
-  console.log("Deactivating Smarty Peek extension.");
+  console.log('Deactivating Smarty Peek extension.');
   // Ressourcer tilføjet til context.subscriptions i activate() bliver automatisk ryddet op.
 }
