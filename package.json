@@ -3,7 +3,7 @@
   "displayName": "Smarty Peek",
   "description": "Enhances Smart Template Engine development by providing insights into collections and entities.",
   "version": "0.1.0",
-  "publisher": "dit-publisher-navn",
+  "publisher": "bewise",
   "engines": {
     "vscode": "^1.85.0"
   },
