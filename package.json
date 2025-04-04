@@ -12,6 +12,17 @@
     "Linters",
     "Snippets"
   ],
+  "icon": "images/icon.png",
+  "keywords": [
+    "smarty",
+    "template",
+    "php",
+    "hover",
+    "intellisense",
+    "dandomain"
+  ],
+  "license": "UNLICENSED",
+  "private": true,
   "main": "./dist/extension.js",
   "contributes": {
     "languages": [
