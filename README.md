@@ -2,18 +2,20 @@
 
 ## Overview
 
-**Smarty Peek** is a Visual Studio Code extension designed to enhance the development experience for Smarty templates (`.tpl` files), particularly within specific platforms like DanDomain webshops (though aiming for broader applicability). It provides hover information for Smarty variables, attempting to display their underlying PHP type and structure through static analysis.
+**Smarty Peek** is a Visual Studio Code extension designed to enhance the development experience for Smarty templates (`.tpl` files), particularly within specific platforms like DanDomain webshops (though aiming for broader applicability). It provides hover information for Smarty variables, attempting to display their underlying structure.
 
-**Goal:** The primary goal is to move beyond simple syntax highlighting and provide developers with insights into the data available within their templates, reducing the need to constantly check backend code or rely on guesswork.
+**⚠️ Work in Progress & Simulated Data:** Please note that this version of Smarty Peek is currently under development. The hover information provided is **simulated** based on common variable names (especially those used in DanDomain) and does **not** involve actual analysis of your PHP backend code yet. The goal is to eventually implement real-time Smarty analysis.
 
 ## Features (Current Implementation)
 
-- **Hover Information:** Provides hover details for variables (e.g., `{$myVar}`, `$anotherVar.property`) in `.tpl` files.
-- **PHP Static Analysis:** Attempts to find where the variable is assigned in PHP code using `$object->assign('variableName', $value)`.
-- **Basic Type Inference:** Infers types for simple assignments (strings, numbers, booleans, arrays, `new ClassName()`). More complex types (variables, property lookups, method calls) are currently marked as `mixed`.
-- **PHPDoc Integration:** Extracts and displays relevant PHPDoc comments (`/** ... */`) found near the variable assignment in PHP.
-- **Source Location:** Provides a link to the PHP file and line number where the assignment was found.
-- **AST Caching:** Caches parsed PHP Abstract Syntax Trees (ASTs) in memory to improve performance on subsequent hovers.
+- **DanDomain Specific Hover Information:** For other detected variable patterns that don't match the hardcoded names, it displays a generic message indicating the type is unknown.
+- **Footer Information:** Hovers often include a footer like "Dandomain Smarty Tooltip" or indicating that the data is simulated and requires PHP analysis (which is not yet implemented).
+- **Hover Provider:** Activates hover information when mousing over code in `.tpl` files.
+- **Simulated Hover Information (Hardcoded):**
+  - For specific, common variable names (like `user`, `general`, `page`, `settings`, `text`, `contactdata`, `currency`, `access`), it displays pre-defined Markdown showing a _guessed_ structure and type information, often labeled as "Smarty Object" or similar.
+  - This data is based on common usage patterns (e.g., in DanDomain) and is **not dynamically generated** from your project's code.
+- **Smarty Language Recognition:** Identifies `.tpl` files as the `smarty` language.
+- **Variable Syntax Detection:** Uses regular expressions to detect patterns commonly used for Smarty variables (e.g., `{$var}`, `$var.prop`, `$var->prop`, `$var[key]`, `$smarty.const.X`).
 
 ## Requirements
 
@@ -35,42 +37,42 @@ Follow these steps to run and test the extension locally from the source code:
 
 1. **Clone the Repository:**
 
-    ```bash
-    git clone <repository-url>
-    cd smarty-peek
-    ```
+   ```bash
+   git clone <repository-url>
+   cd smarty-peek
+   ```
 
 2. **Install Dependencies:**
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-    This installs the necessary libraries, including `php-parser`.
+   This installs the necessary libraries, including `php-parser`.
 
 3. **Compile the Extension:**
 
-    - For a single build:
-      ```bash
-      npm run compile
-      ```
-    - For continuous building as you make changes:
-      ```bash
-      npm run watch
-      ```
-      This uses webpack to compile the TypeScript code in `src/` to JavaScript in `dist/`.
+   - For a single build:
+     ```bash
+     npm run compile
+     ```
+   - For continuous building as you make changes:
+     ```bash
+     npm run watch
+     ```
+     This uses webpack to compile the TypeScript code in `src/` to JavaScript in `dist/`.
 
 4. **Launch Extension Development Host:**
 
-    - Press `F5` in VS Code.
-    - This will open a new VS Code window ([Extension Development Host]) with the `smarty-peek` extension loaded.
+   - Press `F5` in VS Code.
+   - This will open a new VS Code window ([Extension Development Host]) with the `smarty-peek` extension loaded.
 
 5. **Test:**
 
-    - In the [Extension Development Host] window, open a workspace containing Smarty `.tpl` files and potentially the corresponding PHP backend code (depending on your setup).
-    - Open a `.tpl` file.
-    - Hover your mouse over different Smarty variables (e.g., `{$user}`, `{$product->name}`, `$items[0]`).
-    - Observe the hover information provided. Check the `Output` panel (select "Smarty Peek" from the dropdown) for detailed logging and potential errors.
+   - In the [Extension Development Host] window, open a workspace containing Smarty `.tpl` files and potentially the corresponding PHP backend code (depending on your setup).
+   - Open a `.tpl` file.
+   - Hover your mouse over different Smarty variables (e.g., `{$user}`, `{$product->name}`, `$items[0]`).
+   - Observe the hover information provided. Check the `Output` panel (select "Smarty Peek" from the dropdown) for detailed logging and potential errors.
 
 ### Publishing the Extension
 
@@ -134,15 +136,15 @@ To publish the Smarty Peek extension to the VS Code Marketplace, follow these st
 
 ### Quick Reference Table
 
-| Step                 | Action                                                                 | Tool/Command          |
-|----------------------|------------------------------------------------------------------------|-----------------------|
-| Install vsce         | Run `npm install -g @vscode/vsce`                                     | npm                   |
-| Get PAT              | Create via Azure DevOps, select "Marketplace (manage)" scope          | Azure DevOps UI       |
-| Create Publisher     | Set up at marketplace, then `vsce login <publisher-id>`               | Marketplace UI, vsce  |
-| Prepare Extension    | Edit `package.json`, add LICENSE, commit changes                      | Manual editing        |
-| Package and Publish  | Run `vsce package` then `vsce publish`, or upload `.vsix` manually    | vsce                  |
-| Update Version       | Use `vsce publish minor` for versioning                               | vsce                  |
-| Manage Post-Publication | View/edit via manage page                                          | Marketplace UI        |
+| Step                    | Action                                                             | Tool/Command         |
+| ----------------------- | ------------------------------------------------------------------ | -------------------- |
+| Install vsce            | Run `npm install -g @vscode/vsce`                                  | npm                  |
+| Get PAT                 | Create via Azure DevOps, select "Marketplace (manage)" scope       | Azure DevOps UI      |
+| Create Publisher        | Set up at marketplace, then `vsce login <publisher-id>`            | Marketplace UI, vsce |
+| Prepare Extension       | Edit `package.json`, add LICENSE, commit changes                   | Manual editing       |
+| Package and Publish     | Run `vsce package` then `vsce publish`, or upload `.vsix` manually | vsce                 |
+| Update Version          | Use `vsce publish minor` for versioning                            | vsce                 |
+| Manage Post-Publication | View/edit via manage page                                          | Marketplace UI       |
 
 ## How it Works (`extension.ts` Insights)
 
@@ -150,36 +152,21 @@ The core logic resides in `src/extension.ts`:
 
 1. **Activation (`activate` function):**
 
-    - When VS Code activates the extension (e.g., when a `.tpl` file is opened), this function runs.
-    - It creates an instance of `SmartyHoverProvider` and registers it with VS Code's language features for the `smarty` language.
+   - Runs when VS Code activates the extension for `.tpl` files.
+   - Creates and registers the `SmartyHoverProvider`.
 
 2. **Hover Provider (`SmartyHoverProvider`):**
 
-    - The `provideHover` method is triggered whenever you hover over code in a `.tpl` file.
-    - **Variable Detection:** It uses a regular expression (`smartyVariablePattern`) to identify potential Smarty variables under the cursor.
-    - **Variable Cleaning:** It normalizes the found text (e.g., removing `{` `}` `$` prefixes) to get the `cleanVariableName`.
-    - **PHP File Search (`findRelevantPhpFiles`):**
-      - _Limitation:_ Currently, this function performs a broad search for _all_ `.php` files in the workspace (excluding `vendor`), which is inefficient and may not find the _correct_ file responsible for the specific template. This needs improvement for targeted analysis (e.g., searching for `$smarty->display('template.tpl')`).
-    - **AST Parsing (`getParsedPhpAst`):**
-      - For each potential PHP file, it reads the content.
-      - It uses the `php-parser` library to generate an Abstract Syntax Tree (AST) – a tree representation of the PHP code structure.
-      - _Performance:_ It utilizes an in-memory cache (`astCache`) based on file modification times to avoid re-parsing unchanged PHP files repeatedly.
-    - **AST Analysis (`analyzeAstForVariable`):**
-      - It traverses the AST of the PHP file using a simple visitor pattern (`visit` function).
-      - _Simplified Check:_ It currently looks for _any_ method call that looks like `$object->assign('targetVariable', $value)`. It checks if the method name is `assign` and the first argument matches the `cleanVariableName`. It does _not_ currently verify if `$object` is actually a Smarty instance, which is a simplification to avoid complex type checking issues encountered earlier.
-      - **Value Inference (`inferPhpType`):** If an `assign` call is found, it calls `inferPhpType` on the `$value` node (the second argument).
-        - This function checks the `kind` of the AST node (`string`, `number`, `new`, `variable`, etc.).
-        - It returns basic type information for literals and `new ClassName()`.
-        - _Limitation:_ For variables, property lookups, method calls, etc., it currently returns `mixed` as it doesn’t yet trace the variable’s origin or analyze class structures.
-      - **PHPDoc Extraction (`getLeadingDocComment`):** It attempts to find and extract `/** ... */` comments immediately preceding the `assign` call or the assigned value node.
-    - **Formatting (`formatAnalysisResultAsMarkdown`):**
-      - Takes the `TypeInfo` result from the analysis.
-      - Formats it into a user-friendly `MarkdownString`, including the type, a clickable link to the source PHP file/line, and the cleaned PHPDoc.
-    - **Fallback (`createFallbackHover`):** If analysis fails or no information is found, it displays a basic hover indicating the type is unknown.
+   - The `provideHover` method is triggered on hover.
+   - **Variable Detection:** Uses a regex (`smartyVariablePattern`) to find potential Smarty syntax.
+   - **Variable Cleaning:** Normalizes the found text (e.g., removing `{`, `}`, `$`).
+   - **Simulated Logic:** Compares the `cleanVariableName` against a series of `if/else if` conditions matching hardcoded names (e.g., `user`, `general`, `settings`).
+   - **Hardcoded Output:** If a name matches, it appends a predefined `MarkdownString` with the simulated structure/type information.
+   - **Fallback:** If no specific name matches, it generates a generic "Unknown type" hover message.
 
 3. **Deactivation (`deactivate` function):**
 
-    - Clears the `astCache` when the extension is deactivated.
+   - Currently minimal, primarily logs deactivation. (The `astCache` mentioned previously is no longer relevant in this version).
 
 ## Configuration
 
@@ -187,11 +174,18 @@ Currently, the extension does not expose any specific configuration settings via
 
 ## Known Issues & Limitations (Current State)
 
-- **Basic Type Inference:** Often shows `mixed` for variables, object properties, and method call results because it doesn’t trace variable origins or analyze class definitions yet.
-- **Inaccurate PHP File Discovery:** The `findRelevantPhpFiles` function is too broad and may analyze irrelevant files or miss the correct one. It needs to be more targeted (e.g., search for `$smarty->display/fetch` calls).
-- **Simplified `assign` Detection:** The check for `$object->assign()` finds _any_ method named `assign`, which might lead to incorrect results if other classes use a method with the same name.
-- **No Framework/Platform Context:** Does not have specific knowledge of frameworks like DanDomain, Symfony, Laravel, etc., to understand their specific controller/template/entity relationships.
+- **Basic Type Inference:** Often shows `mixed` for variables, object properties, and method call results because it doesn't trace variable
+  origins or analyze class definitions yet.
 - **Complex Path Analysis:** Cannot yet analyze nested properties or method calls like `{$user->address->getCity()}`.
+- **Hardcoded Recognition:** Only provides detailed (simulated) information for a predefined list of variable names. All other variables get a generic "Unknown" message.
+- **Inaccurate PHP File Discovery:** The `findRelevantPhpFiles` function is too broad and may analyze irrelevant files or miss the correct
+  one. It needs to be more targeted (e.g., search for `$smarty->display/fetch` calls).
+- **No Context Awareness:** Lacks any understanding of the specific framework or project structure being used.
+- **No PHP Analysis:** Does not read, parse, or analyze any PHP files. References to PHP analysis in comments or previous README versions are outdated for the current code.
+- **Regex Limitations:** The variable detection regex might not cover all possible valid (or invalid) Smarty syntax permutations, or it might incorrectly identify non-variable code as a variable.
+- **Simplified `assign` Detection:** The check for `$object->assign()` finds _any_ method named `assign`, which might lead to incorrect
+  results if other classes use a method with the same name.
+- **Simulated Data Only:** The primary limitation is that **all hover information is simulated**. It does not reflect the actual data types or structures defined in your specific PHP backend. As of now it contains DanDomain specific data.
 
 ## Contributing
 
