@@ -2,7 +2,7 @@
   "name": "smarty-peek",
   "displayName": "Smarty Peek",
   "description": "Enhances Smart Template Engine development by providing insights into collections and entities.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "bewise",
   "engines": {
     "vscode": "^1.85.0"
