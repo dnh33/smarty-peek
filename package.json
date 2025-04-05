@@ -4,6 +4,14 @@
   "description": "Enhances Smart Template Engine development by providing insights into collections and entities.",
   "version": "0.1.1",
   "publisher": "bewise",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnh33/smarty-peek.git"
+  },
+  "homepage": "https://github.com/dnh33/smarty-peek#readme",
+  "bugs": {
+    "url": "https://github.com/dnh33/smarty-peek/issues"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -21,8 +29,8 @@
     "intellisense",
     "dandomain"
   ],
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "main": "./dist/extension.js",
   "contributes": {
     "languages": [
